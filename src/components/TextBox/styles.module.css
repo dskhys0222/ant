@@ -1,0 +1,33 @@
+.textBox {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--foreground);
+  background-color: var(--background);
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.textBox:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.textBox::placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .textBox {
+    border-color: #4b5563;
+  }
+
+  .textBox::placeholder {
+    color: #9ca3af;
+  }
+}

@@ -1,3 +1,4 @@
+import styles from "./styles.module.css";
 import type { TextBoxProps } from "./types";
 
 export default function TextBox(props: TextBoxProps) {
@@ -16,7 +17,7 @@ export default function TextBox(props: TextBoxProps) {
       value={value}
       onChange={onChange}
       required={required}
-      className="border rounded px-3 py-2"
+      className={styles.textBox}
     />
   );
 }
