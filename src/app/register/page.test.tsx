@@ -8,7 +8,7 @@ import {
 } from "@testing-library/react";
 import { beforeEach, expect, test, vi } from "vitest";
 import Home from "./page";
-import useRegistration from "./page.hooks";
+import useRegister from "./page.hooks";
 
 // registrationService のモック
 vi.mock("@/services/registrationService");
@@ -138,7 +138,7 @@ test("エラーメッセージが表示される", async () => {
 });
 
 test("空の値で初期化される", () => {
-  const { result } = renderHook(() => useRegistration());
+  const { result } = renderHook(() => useRegister());
 
   expect(result.current.host).toBe("");
   expect(result.current.username).toBe("");
@@ -148,7 +148,7 @@ test("空の値で初期化される", () => {
 });
 
 test("セッター関数が呼ばれた時に状態が更新される", () => {
-  const { result } = renderHook(() => useRegistration());
+  const { result } = renderHook(() => useRegister());
 
   act(() => {
     result.current.setHost("example.com");
@@ -168,7 +168,7 @@ test("フォーム送信で成功レスポンスを処理する", async () => {
     message: "登録が完了しました",
   });
 
-  const { result } = renderHook(() => useRegistration());
+  const { result } = renderHook(() => useRegister());
 
   // フォームデータをセット
   act(() => {
@@ -203,7 +203,7 @@ test("フォーム送信でエラーレスポンスを処理する", async () =>
     status: 400,
   });
 
-  const { result } = renderHook(() => useRegistration());
+  const { result } = renderHook(() => useRegister());
 
   // フォームデータをセット
   act(() => {
@@ -233,7 +233,7 @@ test("フォーム送信でネットワークエラーを処理する", async ()
     message: "ネットワークエラー",
   });
 
-  const { result } = renderHook(() => useRegistration());
+  const { result } = renderHook(() => useRegister());
 
   // フォーム送信をシミュレート
   const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
@@ -255,7 +255,7 @@ test("予期しない例外を処理する", async () => {
     throw new Error("予期せぬエラー");
   });
 
-  const { result } = renderHook(() => useRegistration());
+  const { result } = renderHook(() => useRegister());
 
   // フォーム送信をシミュレート
   const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
@@ -277,7 +277,7 @@ test("Error以外の例外を処理する", async () => {
     throw "文字列エラー";
   });
 
-  const { result } = renderHook(() => useRegistration());
+  const { result } = renderHook(() => useRegister());
 
   // フォーム送信をシミュレート
   const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
