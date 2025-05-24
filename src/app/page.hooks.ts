@@ -1,4 +1,4 @@
-import { registerUser } from "@/services/registrationService";
+import { registerUser } from "@/services/registration";
 import { useState } from "react";
 
 export default function useRegistration() {
