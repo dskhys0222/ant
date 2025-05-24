@@ -1,5 +1,6 @@
-import { registerUser } from "@/services/registration";
 import { useState } from "react";
+import { registerUser } from "@/services/registration";
+import { registrationSchema } from "@/services/registration/types";
 
 export default function useRegistration() {
   const [host, setHost] = useState("");
@@ -7,19 +8,33 @@ export default function useRegistration() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<{
+    [key: string]: string;
+  }>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setMessage("");
+    setValidationErrors({});
+
+    const parseResult = registrationSchema.safeParse({
+      host,
+      username,
+      password,
+    });
+    if (!parseResult.success) {
+      const errors: { [key: string]: string } = {};
+      for (const err of parseResult.error.errors) {
+        if (err.path[0]) errors[err.path[0]] = err.message;
+      }
+      setValidationErrors(errors);
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      const result = await registerUser({
-        host,
-        username,
-        password,
-      });
-
+      const result = await registerUser({ host, username, password });
       if (result.success) {
         setMessage(result.message);
       } else {
@@ -48,5 +63,6 @@ export default function useRegistration() {
     message,
     isLoading,
     handleSubmit,
+    validationErrors,
   };
 }

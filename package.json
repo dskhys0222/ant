@@ -17,7 +17,8 @@
     "@tauri-apps/plugin-opener": "^2",
     "next": "^15.3.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zod": "^3.25.28"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

@@ -1,9 +1,22 @@
 import { hash } from "@/utils/hash";
-import type { RegistrationData, RegistrationResult } from "./types";
+import {
+  registrationSchema,
+  type RegistrationSchema,
+  type RegistrationResult,
+} from "./types";
 
 export async function registerUser(
-  data: RegistrationData,
+  data: RegistrationSchema,
 ): Promise<RegistrationResult> {
+  // 入力バリデーション
+  const parseResult = registrationSchema.safeParse(data);
+  if (!parseResult.success) {
+    return {
+      success: false,
+      message: parseResult.error.errors.map((e) => e.message).join("\n"),
+    };
+  }
+
   try {
     const hashedPassword = await hash(data.password);
 

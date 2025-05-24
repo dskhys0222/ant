@@ -15,12 +15,13 @@ export default function Home() {
     message,
     isLoading,
     handleSubmit,
+    validationErrors,
   } = useRegistration();
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit} className={styles.form} noValidate>
           <h2 className={styles.formTitle}>ユーザー登録</h2>
           <TextBox
             type="text"
@@ -29,6 +30,9 @@ export default function Home() {
             onChange={(e) => setHost(e.target.value)}
             required
           />
+          {validationErrors.host && (
+            <div className={styles.error}>{validationErrors.host}</div>
+          )}
           <TextBox
             type="email"
             placeholder="メールアドレス"
@@ -36,6 +40,9 @@ export default function Home() {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
+          {validationErrors.username && (
+            <div className={styles.error}>{validationErrors.username}</div>
+          )}
           <TextBox
             type="password"
             placeholder="パスワード"
@@ -43,6 +50,9 @@ export default function Home() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {validationErrors.password && (
+            <div className={styles.error}>{validationErrors.password}</div>
+          )}
           <button type="submit" disabled={isLoading} className={styles.button}>
             {isLoading ? "処理中..." : "登録"}
           </button>
