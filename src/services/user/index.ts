@@ -1,7 +1,7 @@
 import { getHost } from "@/services/host";
+import { generateUserKey, setUserKey } from "@/services/key";
+import { setAccessToken } from "@/services/token";
 import { hash } from "@/utils/hash";
-import { generateUserKey, setUserKey } from "../key";
-import { setAccessToken } from "../token";
 import {
   type ApiResult,
   type LoginSchema,

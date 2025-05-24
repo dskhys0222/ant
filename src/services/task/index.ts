@@ -1,7 +1,7 @@
 import { getHost } from "@/services/host";
+import { getUserKey } from "@/services/key";
 import { getAccessToken } from "@/services/token";
 import { decryptObject, encryptObject } from "@/utils/crypto";
-import { getUserKey } from "../key";
 import type { Task, TaskApiResult, TaskData, TaskDataWithId } from "./types";
 
 export async function fetchTasks(): Promise<TaskApiResult<TaskDataWithId[]>> {
