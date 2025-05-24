@@ -1,6 +1,7 @@
 "use client";
 
 import useRegistration from "@/app/page.hooks";
+import ErrorMessage from "@/components/ErrorMessage";
 import TextBox from "@/components/TextBox";
 import styles from "./page.module.css";
 
@@ -30,9 +31,7 @@ export default function Home() {
             onChange={(e) => setHost(e.target.value)}
             required
           />
-          {validationErrors.host && (
-            <div className={styles.error}>{validationErrors.host}</div>
-          )}
+          <ErrorMessage message={validationErrors.host} />
           <TextBox
             type="email"
             placeholder="メールアドレス"
@@ -40,9 +39,7 @@ export default function Home() {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-          {validationErrors.username && (
-            <div className={styles.error}>{validationErrors.username}</div>
-          )}
+          <ErrorMessage message={validationErrors.username} />
           <TextBox
             type="password"
             placeholder="パスワード"
@@ -50,9 +47,7 @@ export default function Home() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {validationErrors.password && (
-            <div className={styles.error}>{validationErrors.password}</div>
-          )}
+          <ErrorMessage message={validationErrors.password} />
           <button type="submit" disabled={isLoading} className={styles.button}>
             {isLoading ? "処理中..." : "登録"}
           </button>

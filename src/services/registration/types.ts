@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { hostRegex } from "@/constants";
+import { z } from "zod";
 
 export const registrationSchema = z.object({
   username: z.string().email("有効なメールアドレスを入力してください"),

@@ -1,8 +1,8 @@
 import { hash } from "@/utils/hash";
 import {
-  registrationSchema,
-  type RegistrationSchema,
   type RegistrationResult,
+  type RegistrationSchema,
+  registrationSchema,
 } from "./types";
 
 export async function registerUser(

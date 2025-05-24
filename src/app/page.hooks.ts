@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { registerUser } from "@/services/registration";
 import { registrationSchema } from "@/services/registration/types";
+import { useState } from "react";
 
 export default function useRegistration() {
   const [host, setHost] = useState("");
