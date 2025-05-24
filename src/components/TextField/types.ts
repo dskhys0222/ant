@@ -1,13 +1,13 @@
 import type { TextBoxType } from "@/components/TextBox/types";
-import type { ChangeEvent } from "react";
 
-export type LabeledTextBoxProps = {
+export type TextFieldProps = {
   id?: string;
   label: string;
   type?: TextBoxType;
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean;
+  onChange: (value: string) => void;
   errorMessage?: string;
   className?: string;
+  required?: boolean;
+  placeholder?: string;
 };

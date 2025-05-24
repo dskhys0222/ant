@@ -5,10 +5,10 @@ import Form from "@/components/Form";
 import Text from "@/components/Text";
 import TextField from "@/components/TextField";
 import Link from "next/link";
-import useRegister from "./page.hooks";
+import useLogin from "./page.hooks";
 import styles from "./page.module.css";
 
-export default function Register() {
+export default function Login() {
   const {
     host,
     setHost,
@@ -18,15 +18,15 @@ export default function Register() {
     setPassword,
     message,
     isLoading,
-    handleSubmit,
+    handleLogin,
     validationErrors,
-  } = useRegister();
+  } = useLogin();
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <Form onSubmit={handleSubmit}>
-          <Text value="ユーザー登録" size="large" />
+        <Form onSubmit={handleLogin}>
+          <Text value="ログイン" size="large" />
           <TextField
             type="text"
             label="ホスト名"
@@ -49,10 +49,10 @@ export default function Register() {
             errorMessage={validationErrors.password}
           />
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? "処理中..." : "登録"}
+            {isLoading ? "ログイン中..." : "ログイン"}
           </Button>
           {message && <Text value={message} size="small" />}
-          <Link href="/login">ログイン</Link>
+          <Link href="/register">新規登録</Link>
         </Form>
       </main>
     </div>

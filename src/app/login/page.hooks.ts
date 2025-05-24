@@ -1,10 +1,10 @@
 import { setHost } from "@/services/host";
-import { register } from "@/services/user";
-import { registerSchema } from "@/services/user/types";
+import { login } from "@/services/user";
+import { loginSchema } from "@/services/user/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function useRegister() {
+export default function useLogin() {
   const [host, setHostName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +15,7 @@ export default function useRegister() {
   }>({});
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setMessage("");
@@ -23,7 +23,7 @@ export default function useRegister() {
 
     setHost(host);
 
-    const parseResult = registerSchema.safeParse({
+    const parseResult = loginSchema.safeParse({
       username,
       password,
     });
@@ -38,7 +38,7 @@ export default function useRegister() {
     }
 
     try {
-      const result = await register({ username, password });
+      const result = await login({ username, password });
       if (result.success) {
         setMessage(result.message);
         router.push("/tasks");
@@ -67,7 +67,7 @@ export default function useRegister() {
     setPassword,
     message,
     isLoading,
-    handleSubmit,
+    handleLogin,
     validationErrors,
   };
 }

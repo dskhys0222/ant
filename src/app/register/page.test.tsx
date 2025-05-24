@@ -1,4 +1,4 @@
-import * as registrationService from "@/services/registration";
+import * as userService from "@/services/user";
 import {
   act,
   fireEvent,
@@ -48,7 +48,7 @@ test("入力値の変更ができる", () => {
 
 test("送信ボタンクリック時にフォームが送信される", async () => {
   // モックの設定
-  vi.spyOn(registrationService, "registerUser").mockResolvedValue({
+  vi.spyOn(userService, "register").mockResolvedValue({
     success: true,
     message: "登録が完了しました",
   });
@@ -73,7 +73,7 @@ test("送信ボタンクリック時にフォームが送信される", async ()
     await new Promise((resolve) => setTimeout(resolve, 100));
   });
 
-  expect(registrationService.registerUser).toHaveBeenCalledWith({
+  expect(userService.register).toHaveBeenCalledWith({
     host: "example.com",
     username: "test@example.com",
     password: "password123",
@@ -82,7 +82,7 @@ test("送信ボタンクリック時にフォームが送信される", async ()
 
 test("成功メッセージが表示される", async () => {
   // モックの設定
-  vi.spyOn(registrationService, "registerUser").mockResolvedValue({
+  vi.spyOn(userService, "register").mockResolvedValue({
     success: true,
     message: "登録が完了しました",
   });
@@ -108,7 +108,7 @@ test("成功メッセージが表示される", async () => {
 
 test("エラーメッセージが表示される", async () => {
   // エラーレスポンスのモック
-  vi.spyOn(registrationService, "registerUser").mockResolvedValue({
+  vi.spyOn(userService, "register").mockResolvedValue({
     success: false,
     message: "ユーザー名が既に使用されています",
     status: 400,
@@ -163,7 +163,7 @@ test("セッター関数が呼ばれた時に状態が更新される", () => {
 
 test("フォーム送信で成功レスポンスを処理する", async () => {
   // 成功レスポンスのモック
-  vi.spyOn(registrationService, "registerUser").mockResolvedValue({
+  vi.spyOn(userService, "register").mockResolvedValue({
     success: true,
     message: "登録が完了しました",
   });
@@ -186,7 +186,7 @@ test("フォーム送信で成功レスポンスを処理する", async () => {
 
   // アサーション
   expect(mockEvent.preventDefault).toHaveBeenCalled();
-  expect(registrationService.registerUser).toHaveBeenCalledWith({
+  expect(userService.register).toHaveBeenCalledWith({
     host: "example.com",
     username: "testuser",
     password: "password123",
@@ -197,7 +197,7 @@ test("フォーム送信で成功レスポンスを処理する", async () => {
 
 test("フォーム送信でエラーレスポンスを処理する", async () => {
   // エラーレスポンスのモック
-  vi.spyOn(registrationService, "registerUser").mockResolvedValue({
+  vi.spyOn(userService, "register").mockResolvedValue({
     success: false,
     message: "ユーザー名が既に使用されています",
     status: 400,
@@ -228,7 +228,7 @@ test("フォーム送信でエラーレスポンスを処理する", async () =>
 
 test("フォーム送信でネットワークエラーを処理する", async () => {
   // エラーレスポンスのモック（ステータスなし）
-  vi.spyOn(registrationService, "registerUser").mockResolvedValue({
+  vi.spyOn(userService, "register").mockResolvedValue({
     success: false,
     message: "ネットワークエラー",
   });
@@ -251,7 +251,7 @@ test("フォーム送信でネットワークエラーを処理する", async ()
 
 test("予期しない例外を処理する", async () => {
   // 例外をスローするモック
-  vi.spyOn(registrationService, "registerUser").mockImplementation(() => {
+  vi.spyOn(userService, "register").mockImplementation(() => {
     throw new Error("予期せぬエラー");
   });
 
@@ -273,7 +273,7 @@ test("予期しない例外を処理する", async () => {
 
 test("Error以外の例外を処理する", async () => {
   // 文字列例外をスローするモック
-  vi.spyOn(registrationService, "registerUser").mockImplementation(() => {
+  vi.spyOn(userService, "register").mockImplementation(() => {
     throw "文字列エラー";
   });
 

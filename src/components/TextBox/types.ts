@@ -28,6 +28,6 @@ export type TextBoxProps = {
   value: string;
   /** 値変更時のイベントハンドラ */
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  /** 必須項目かどうか */
+  /** 必須フィールドかどうか */
   required?: boolean;
 };
