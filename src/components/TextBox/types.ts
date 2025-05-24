@@ -18,6 +18,8 @@ export type TextBoxType =
   | "time";
 
 export type TextBoxProps = {
+  /** input要素のid属性 */
+  id?: string;
   /** テキストボックスの入力タイプ */
   type?: TextBoxType;
   /** プレースホルダーテキスト */

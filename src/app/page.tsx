@@ -1,8 +1,7 @@
 "use client";
 
-import useRegistration from "@/app/page.hooks";
-import ErrorMessage from "@/components/ErrorMessage";
-import TextBox from "@/components/TextBox";
+import TextField from "@/components/TextField";
+import useRegistration from "./page.hooks";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -24,30 +23,30 @@ export default function Home() {
       <main className={styles.main}>
         <form onSubmit={handleSubmit} className={styles.form} noValidate>
           <h2 className={styles.formTitle}>ユーザー登録</h2>
-          <TextBox
+          <TextField
             type="text"
-            placeholder="ホスト名"
+            label="ホスト名"
             value={host}
             onChange={(e) => setHost(e.target.value)}
             required
+            errorMessage={validationErrors.host}
           />
-          <ErrorMessage message={validationErrors.host} />
-          <TextBox
+          <TextField
             type="email"
-            placeholder="メールアドレス"
+            label="メールアドレス"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            errorMessage={validationErrors.username}
           />
-          <ErrorMessage message={validationErrors.username} />
-          <TextBox
+          <TextField
             type="password"
-            placeholder="パスワード"
+            label="パスワード"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            errorMessage={validationErrors.password}
           />
-          <ErrorMessage message={validationErrors.password} />
           <button type="submit" disabled={isLoading} className={styles.button}>
             {isLoading ? "処理中..." : "登録"}
           </button>

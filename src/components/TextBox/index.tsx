@@ -3,6 +3,7 @@ import type { TextBoxProps } from "./types";
 
 export default function TextBox(props: TextBoxProps) {
   const {
+    id,
     type = "text",
     placeholder = "",
     value,
@@ -12,6 +13,7 @@ export default function TextBox(props: TextBoxProps) {
 
   return (
     <input
+      id={id}
       type={type}
       placeholder={placeholder}
       value={value}
