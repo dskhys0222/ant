@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { registerUser } from "./index";
 import * as hashModule from "@/utils/hash";
+import { beforeEach, describe, expect, test, vi } from "vitest";
+import { registerUser } from "./index";
 
 // fetch のモック
 const mockFetch = vi.fn();
@@ -16,7 +16,7 @@ describe("registrationService", () => {
     });
   });
 
-  it("should register user successfully", async () => {
+  test("ユーザー登録が成功する", async () => {
     // 成功レスポンスのモック
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -47,7 +47,7 @@ describe("registrationService", () => {
     });
   });
 
-  it("should handle registration error", async () => {
+  test("登録エラーを処理する", async () => {
     // エラーレスポンスのモック
     mockFetch.mockResolvedValueOnce({
       ok: false,
@@ -68,7 +68,7 @@ describe("registrationService", () => {
     });
   });
 
-  it("should handle network errors", async () => {
+  test("ネットワークエラーを処理する", async () => {
     // ネットワークエラーのモック
     mockFetch.mockRejectedValueOnce(new Error("ネットワークエラー"));
 
@@ -81,6 +81,64 @@ describe("registrationService", () => {
     expect(result).toEqual({
       success: false,
       message: "ネットワークエラー",
+    });
+  });
+  test("標準外のエラーレスポンス形式を処理する", async () => {
+    // エラーレスポンスでJSONがない場合のモック
+    mockFetch.mockResolvedValueOnce({
+      ok: false,
+      status: 500,
+      json: async () => {
+        throw new Error("Invalid JSON");
+      },
+    });
+
+    const result = await registerUser({
+      username: "testuser",
+      password: "password123",
+      host: "example.com",
+    });
+
+    expect(result).toEqual({
+      success: false,
+      message: "Invalid JSON",
+    });
+  });
+
+  test("ハッシュ関数のエラーを処理する", async () => {
+    // hash関数がエラーを投げる場合
+    vi.spyOn(hashModule, "hash").mockRejectedValueOnce(
+      new Error("Hashing failed"),
+    );
+
+    const result = await registerUser({
+      username: "testuser",
+      password: "password123",
+      host: "example.com",
+    });
+
+    expect(result).toEqual({
+      success: false,
+      message: "Hashing failed",
+    });
+
+    // fetchが呼ばれていないことを確認
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  test("Error型以外の例外を処理する", async () => {
+    // Errorオブジェクトではない例外
+    mockFetch.mockRejectedValueOnce("String error");
+
+    const result = await registerUser({
+      username: "testuser",
+      password: "password123",
+      host: "example.com",
+    });
+
+    expect(result).toEqual({
+      success: false,
+      message: "String error",
     });
   });
 });

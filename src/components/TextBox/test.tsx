@@ -1,10 +1,10 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { describe, expect, test, vi } from "vitest";
 import TextBox from "./index";
 
-describe("TextBox", () => {
-  it("renders with default props", () => {
+describe("TextBoxコンポーネント", () => {
+  test("デフォルトプロパティでレンダリングされる", () => {
     const onChange = vi.fn();
     render(<TextBox value="" onChange={onChange} />);
 
@@ -14,7 +14,7 @@ describe("TextBox", () => {
     expect(input).not.toBeRequired();
   });
 
-  it("renders with custom props", () => {
+  test("カスタムプロパティでレンダリングされる", () => {
     const onChange = vi.fn();
     render(
       <TextBox
@@ -33,7 +33,7 @@ describe("TextBox", () => {
     expect(input).toBeRequired();
   });
 
-  it("calls onChange when value changes", async () => {
+  test("値が変更された時にonChangeが呼ばれる", async () => {
     const onChange = vi.fn();
     render(<TextBox value="" onChange={onChange} />);
 

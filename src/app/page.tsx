@@ -1,6 +1,6 @@
 "use client";
 
-import useRegistration from "@/app/hooks";
+import useRegistration from "@/app/page.hooks";
 import TextBox from "@/components/TextBox";
 import styles from "./page.module.css";
 

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, vi } from "vitest";
+import { beforeAll, describe, expect, test, vi } from "vitest";
 import { hash } from "./index";
 
 describe("hash", () => {
@@ -15,7 +15,7 @@ describe("hash", () => {
     }
   });
 
-  it("should hash a string to SHA-256", async () => {
+  test("文字列をSHA-256でハッシュする", async () => {
     // モックの出力を設定
     const mockDigest = vi
       .spyOn(crypto.subtle, "digest")
@@ -42,14 +42,14 @@ describe("hash", () => {
     mockDigest.mockRestore();
   });
 
-  it("should produce different hashes for different inputs", async () => {
+  test("異なる入力に対して異なるハッシュを生成する", async () => {
     const hash1 = await hash("hello");
     const hash2 = await hash("world");
 
     expect(hash1).not.toBe(hash2);
   });
 
-  it("should produce consistent hashes for the same input", async () => {
+  test("同じ入力に対して一貫したハッシュを生成する", async () => {
     const hash1 = await hash("consistent");
     const hash2 = await hash("consistent");
 
