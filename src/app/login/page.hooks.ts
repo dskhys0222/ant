@@ -37,25 +37,19 @@ export default function useLogin() {
       return;
     }
 
-    try {
-      const result = await login({ username, password });
-      if (result.success) {
-        setMessage(result.message);
-        router.push("/tasks");
-      } else {
-        setMessage(
-          result.status
-            ? `${result.status} エラー: ${result.message}`
-            : `エラーが発生しました: ${result.message}`,
-        );
-      }
-    } catch (error) {
+    const result = await login({ username, password });
+    if (result.success) {
+      setMessage(result.message);
+      router.push("/tasks");
+    } else {
       setMessage(
-        `予期せぬエラーが発生しました: ${error instanceof Error ? error.message : String(error)}`,
+        result.status
+          ? `${result.status} エラー: ${result.message}`
+          : `エラーが発生しました: ${result.message}`,
       );
-    } finally {
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   };
 
   return {

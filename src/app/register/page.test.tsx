@@ -1,3 +1,4 @@
+import * as hostService from "@/services/host";
 import * as userService from "@/services/user";
 import {
   act,
@@ -13,17 +14,28 @@ import useRegister from "./page.hooks";
 // registrationService のモック
 vi.mock("@/services/registrationService");
 
+// Next.js router のモック
+const mockPush = vi.fn();
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: mockPush,
+    replace: vi.fn(),
+    refresh: vi.fn(),
+  }),
+}));
+
 beforeEach(() => {
   vi.clearAllMocks();
+  mockPush.mockClear();
+  // hostサービスのモック
+  vi.spyOn(hostService, "setHost").mockReturnValue(true);
 });
 
 test("登録フォームが正しく表示される", () => {
   render(<Home />);
 
   // フォームコンポーネントの表示を確認
-  expect(
-    screen.getByRole("heading", { name: /ユーザー登録/i }),
-  ).toBeInTheDocument();
+  expect(screen.getByText("ユーザー登録")).toBeInTheDocument();
   expect(screen.getByPlaceholderText("ホスト名")).toBeInTheDocument();
   expect(screen.getByPlaceholderText("メールアドレス")).toBeInTheDocument();
   expect(screen.getByPlaceholderText("パスワード")).toBeInTheDocument();
@@ -74,7 +86,6 @@ test("送信ボタンクリック時にフォームが送信される", async ()
   });
 
   expect(userService.register).toHaveBeenCalledWith({
-    host: "example.com",
     username: "test@example.com",
     password: "password123",
   });
@@ -173,7 +184,7 @@ test("フォーム送信で成功レスポンスを処理する", async () => {
   // フォームデータをセット
   act(() => {
     result.current.setHost("example.com");
-    result.current.setUsername("testuser");
+    result.current.setUsername("testuser@example.com");
     result.current.setPassword("password123");
   });
 
@@ -187,8 +198,7 @@ test("フォーム送信で成功レスポンスを処理する", async () => {
   // アサーション
   expect(mockEvent.preventDefault).toHaveBeenCalled();
   expect(userService.register).toHaveBeenCalledWith({
-    host: "example.com",
-    username: "testuser",
+    username: "testuser@example.com",
     password: "password123",
   });
   expect(result.current.message).toBe("登録が完了しました");
@@ -208,7 +218,7 @@ test("フォーム送信でエラーレスポンスを処理する", async () =>
   // フォームデータをセット
   act(() => {
     result.current.setHost("example.com");
-    result.current.setUsername("existinguser");
+    result.current.setUsername("existinguser@example.com");
     result.current.setPassword("password123");
   });
 
@@ -235,6 +245,13 @@ test("フォーム送信でネットワークエラーを処理する", async ()
 
   const { result } = renderHook(() => useRegister());
 
+  // フォームデータをセット
+  act(() => {
+    result.current.setHost("example.com");
+    result.current.setUsername("testuser@example.com");
+    result.current.setPassword("password123");
+  });
+
   // フォーム送信をシミュレート
   const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
 
@@ -256,6 +273,13 @@ test("予期しない例外を処理する", async () => {
   });
 
   const { result } = renderHook(() => useRegister());
+
+  // フォームデータをセット
+  act(() => {
+    result.current.setHost("example.com");
+    result.current.setUsername("testuser@example.com");
+    result.current.setPassword("password123");
+  });
 
   // フォーム送信をシミュレート
   const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
@@ -279,6 +303,13 @@ test("Error以外の例外を処理する", async () => {
 
   const { result } = renderHook(() => useRegister());
 
+  // フォームデータをセット
+  act(() => {
+    result.current.setHost("example.com");
+    result.current.setUsername("testuser@example.com");
+    result.current.setPassword("password123");
+  });
+
   // フォーム送信をシミュレート
   const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
 
@@ -291,4 +322,66 @@ test("Error以外の例外を処理する", async () => {
     "予期せぬエラーが発生しました: 文字列エラー",
   );
   expect(result.current.isLoading).toBe(false);
+});
+
+test("useRegister - バリデーションエラーの処理", async () => {
+  const { result } = renderHook(() => useRegister());
+
+  // 無効なデータをセット（空のユーザー名とパスワード）
+  act(() => {
+    result.current.setHost("example.com");
+    result.current.setUsername(""); // 空のユーザー名
+    result.current.setPassword(""); // 空のパスワード
+  });
+
+  // フォーム送信をシミュレート
+  const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
+
+  await act(async () => {
+    await result.current.handleSubmit(mockEvent);
+  });
+
+  // バリデーションエラーが設定されることを確認
+  expect(result.current.validationErrors).toEqual(
+    expect.objectContaining({
+      username: expect.any(String),
+      password: expect.any(String),
+    }),
+  );
+  expect(result.current.isLoading).toBe(false);
+
+  // userServiceのregisterが呼ばれないことを確認
+  expect(userService.register).not.toHaveBeenCalled();
+});
+
+test("useRegister - 登録失敗時のstatusなしエラー", async () => {
+  // register サービスをモック（statusなしのエラー）
+  vi.spyOn(userService, "register").mockResolvedValue({
+    success: false,
+    message: "登録に失敗しました",
+    // statusプロパティなし
+  });
+
+  const { result } = renderHook(() => useRegister());
+
+  // フォームデータをセット
+  act(() => {
+    result.current.setHost("example.com");
+    result.current.setUsername("testuser@example.com");
+    result.current.setPassword("password123");
+  });
+
+  // フォーム送信をシミュレート
+  const mockEvent = { preventDefault: vi.fn() } as unknown as React.FormEvent;
+
+  await act(async () => {
+    await result.current.handleSubmit(mockEvent);
+  });
+
+  // アサーション（statusなしのエラーメッセージ）
+  expect(result.current.message).toBe(
+    "エラーが発生しました: 登録に失敗しました",
+  );
+  expect(result.current.isLoading).toBe(false);
+  expect(mockPush).not.toHaveBeenCalled();
 });

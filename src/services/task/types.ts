@@ -26,9 +26,16 @@ export interface TaskDataWithId extends TaskData {
   _id: string;
 }
 
-export interface TaskApiResult<T = unknown> {
-  success: boolean;
-  message?: string;
+export type TaskApiResult<T = undefined> = TaskApiSuccess<T> | TaskApiError;
+
+interface TaskApiSuccess<T = undefined> {
+  success: true;
+  data: T;
+  status: number;
+}
+
+interface TaskApiError {
+  success: false;
+  message: string;
   status?: number;
-  data?: T;
 }

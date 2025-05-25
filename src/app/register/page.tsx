@@ -30,6 +30,7 @@ export default function Register() {
           <TextField
             type="text"
             label="ホスト名"
+            placeholder="ホスト名"
             value={host}
             onChange={(value) => setHost(value)}
             errorMessage={validationErrors.host}
@@ -37,6 +38,7 @@ export default function Register() {
           <TextField
             type="email"
             label="メールアドレス"
+            placeholder="メールアドレス"
             value={username}
             onChange={(value) => setUsername(value)}
             errorMessage={validationErrors.username}
@@ -44,6 +46,7 @@ export default function Register() {
           <TextField
             type="password"
             label="パスワード"
+            placeholder="パスワード"
             value={password}
             onChange={(value) => setPassword(value)}
             errorMessage={validationErrors.password}

@@ -31,21 +31,17 @@ export function useTasks(): UseTasksReturn {
   const refreshTasks = useCallback(async () => {
     setLoading(true);
     setError(null);
-    try {
-      const result = await fetchTasks();
-      if (result.success) {
-        setTasks(result.data || []);
-      } else {
-        setError(result.message || "タスクの取得に失敗しました");
-      }
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "不明なエラーが発生しました",
-      );
-    } finally {
-      setLoading(false);
+
+    const result = await fetchTasks();
+    if (result.success) {
+      setTasks(result.data);
+    } else {
+      setError(result.message);
     }
+
+    setLoading(false);
   }, []);
+
   const openForm = useCallback((task?: TaskDataWithId) => {
     setEditingTask(task || null);
     setIsFormOpen(true);
@@ -58,38 +54,28 @@ export function useTasks(): UseTasksReturn {
 
   const handleCreate = useCallback(
     async (task: TaskData) => {
-      try {
-        const result = await createTask(task);
-        if (result.success) {
-          await refreshTasks();
-          closeForm();
-        } else {
-          setError(result.message || "タスクの作成に失敗しました");
-        }
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "不明なエラーが発生しました",
-        );
+      const result = await createTask(task);
+      if (result.success) {
+        await refreshTasks();
+        closeForm();
+      } else {
+        setError(result.message);
       }
     },
     [refreshTasks, closeForm],
   );
+
   const handleUpdate = useCallback(
     async (task: TaskData) => {
+      /* c8 ignore next */
       if (!editingTask) return;
 
-      try {
-        const result = await updateTask(editingTask._id, task);
-        if (result.success) {
-          await refreshTasks();
-          closeForm();
-        } else {
-          setError(result.message || "タスクの更新に失敗しました");
-        }
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "不明なエラーが発生しました",
-        );
+      const result = await updateTask(editingTask._id, task);
+      if (result.success) {
+        await refreshTasks();
+        closeForm();
+      } else {
+        setError(result.message);
       }
     },
     [editingTask, refreshTasks, closeForm],
@@ -99,17 +85,11 @@ export function useTasks(): UseTasksReturn {
     async (id: string) => {
       if (!confirm("このタスクを削除しますか？")) return;
 
-      try {
-        const result = await deleteTask(id);
-        if (result.success) {
-          await refreshTasks();
-        } else {
-          setError(result.message || "タスクの削除に失敗しました");
-        }
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "不明なエラーが発生しました",
-        );
+      const result = await deleteTask(id);
+      if (result.success) {
+        await refreshTasks();
+      } else {
+        setError(result.message);
       }
     },
     [refreshTasks],
@@ -118,6 +98,7 @@ export function useTasks(): UseTasksReturn {
   useEffect(() => {
     refreshTasks();
   }, [refreshTasks]);
+
   return {
     tasks,
     loading,

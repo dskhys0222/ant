@@ -134,7 +134,7 @@ export async function updateTask(
   }
 }
 
-export async function deleteTask(id: string): Promise<TaskApiResult<never>> {
+export async function deleteTask(id: string): Promise<TaskApiResult> {
   const token = getAccessToken();
   if (!token) {
     return {
@@ -153,6 +153,7 @@ export async function deleteTask(id: string): Promise<TaskApiResult<never>> {
       return {
         success: true,
         status: res.status,
+        data: undefined,
       };
     }
     return {

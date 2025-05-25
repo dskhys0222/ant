@@ -79,13 +79,11 @@ export default function TaskList({ tasks, onEdit, onDelete }: TaskListProps) {
                 期限: {new Date(task.dueDate).toLocaleDateString("ja-JP")}
               </span>
             )}
-            {task.priority && (
-              <span
-                className={`${styles.priority} ${getPriorityClass(task.priority)}`}
-              >
-                優先度: {getPriorityLabel(task.priority)}
-              </span>
-            )}
+            <span
+              className={`${styles.priority} ${getPriorityClass(task.priority)}`}
+            >
+              優先度: {getPriorityLabel(task.priority)}
+            </span>
           </div>
         </div>
       ))}{" "}

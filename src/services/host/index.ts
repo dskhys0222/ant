@@ -15,7 +15,7 @@ export function setHost(hostname: string): boolean {
   }
   if (!isValidHostname(hostname)) {
     console.error("無効なホスト名です");
-    return false;
+    throw new Error("無効なホスト名です");
   }
 
   try {

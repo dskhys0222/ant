@@ -86,7 +86,7 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
           <TextField
             label="期限"
             type="date"
-            value={formData.dueDate ?? ""}
+            value={formData.dueDate || ""}
             onChange={handleChange("dueDate")}
           />
 
