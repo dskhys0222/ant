@@ -14,7 +14,8 @@
       "build",
       "out",
       "coverage",
-      ".next"
+      ".next",
+      "styled-system"
     ]
   },
   "formatter": {

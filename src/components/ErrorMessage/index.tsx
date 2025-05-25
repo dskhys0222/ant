@@ -1,4 +1,4 @@
-import styles from "./styles.module.css";
+import styles from "./styles";
 import type { ErrorMessageProps } from "./types";
 
 export default function ErrorMessage({ message }: ErrorMessageProps) {

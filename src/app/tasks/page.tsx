@@ -5,7 +5,7 @@ import TaskForm from "@/components/TaskForm";
 import TaskList from "@/components/TaskList";
 import React from "react";
 import useTasks from "./page.hooks";
-import styles from "./page.module.css";
+import styles from "./page.styles";
 
 export default function TasksPage() {
   const {

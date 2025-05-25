@@ -1,4 +1,4 @@
-import styles from "./styles.module.css";
+import styles from "./styles";
 import type { ButtonProps } from "./types";
 
 export default function Button(props: ButtonProps) {

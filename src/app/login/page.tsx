@@ -6,7 +6,7 @@ import Text from "@/components/Text";
 import TextField from "@/components/TextField";
 import Link from "next/link";
 import useLogin from "./page.hooks";
-import styles from "./page.module.css";
+import styles from "./page.styles";
 
 export default function Login() {
   const {

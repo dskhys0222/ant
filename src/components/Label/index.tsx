@@ -1,4 +1,4 @@
-import styles from "./styles.module.css";
+import styles from "./styles";
 import type { LabelProps } from "./types";
 
 export default function Label({ htmlFor, children, className }: LabelProps) {

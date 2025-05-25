@@ -6,7 +6,7 @@ import Text from "@/components/Text";
 import TextField from "@/components/TextField";
 import Link from "next/link";
 import useRegister from "./page.hooks";
-import styles from "./page.module.css";
+import styles from "./page.styles";
 
 export default function Register() {
   const {

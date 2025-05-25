@@ -3,7 +3,7 @@ import TextField from "@/components/TextField";
 import type { TaskData, TaskDataWithId } from "@/services/task/types";
 import type React from "react";
 import { useEffect, useState } from "react";
-import styles from "./styles.module.css";
+import styles from "./styles";
 
 interface TaskFormProps {
   task?: TaskDataWithId | null;

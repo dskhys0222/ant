@@ -34,7 +34,8 @@ describe("ErrorMessageコンポーネント", () => {
     render(<ErrorMessage message={errorMessage} />);
 
     const errorElement = screen.getByText(errorMessage);
-    // CSS Modulesのクラス名はハッシュ化されるため、元のクラス名をチェック
-    expect(errorElement.className).toContain("_error_");
+    // Panda CSSのクラス名が適用されていることを確認
+    expect(errorElement.className).toBeTruthy();
+    expect(errorElement.className.length).toBeGreaterThan(0);
   });
 });

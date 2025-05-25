@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import type { TaskDataWithId } from "@/services/task/types";
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./styles";
 
 interface TaskListProps {
   tasks: TaskDataWithId[];

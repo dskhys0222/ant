@@ -1,4 +1,4 @@
-import styles from "./styles.module.css";
+import styles from "./styles";
 import type { TextBoxProps } from "./types";
 
 export default function TextBox(props: TextBoxProps) {

@@ -1,7 +1,7 @@
 "use client";
 
 import useHome from "./page.hooks";
-import styles from "./page.module.css";
+import styles from "./page.styles";
 
 export default function Home() {
   useHome();
