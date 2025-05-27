@@ -21,12 +21,6 @@ const styles = {
       color: "#6b7280",
       opacity: 1,
     },
-    "@media (prefers-color-scheme: dark)": {
-      borderColor: "#4b5563",
-      "&::placeholder": {
-        color: "#9ca3af",
-      },
-    },
   }),
 };
 

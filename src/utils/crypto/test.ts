@@ -8,7 +8,7 @@ describe("crypto utilities", () => {
     age: 30,
     email: "john@example.com",
     preferences: {
-      theme: "dark",
+      theme: "light",
       notifications: true,
     },
   };

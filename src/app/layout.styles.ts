@@ -16,10 +16,6 @@ const styles = {
       "--color-primary-hover": "#2563eb",
       "--color-primary-disabled": "#93c5fd",
     },
-    "@media (prefers-color-scheme: dark)": {
-      "--background": "#0a0a0a",
-      "--foreground": "#ededed",
-    },
   }),
   body: css({
     background: "var(--background)",
