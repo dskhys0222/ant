@@ -46,6 +46,9 @@ dist-ssr
 *.tsbuildinfo
 next-env.d.ts
 
-## Panda
+# Panda CSS
 styled-system
 styled-system-studio
+
+# Storybook
+*storybook.log
